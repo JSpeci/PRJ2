@@ -1,0 +1,12 @@
+﻿poznamky k projektu,
+to-dos
+
+Datamodel - hotovy naplneny,
+
+vytvorit simple api pres slim fw
+
+pak ho otestovat
+
+api key a loginy uzivatelu
+
+zacit navrhovat klientskou cast
