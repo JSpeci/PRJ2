@@ -10,3 +10,13 @@ pak ho otestovat
 api key a loginy uzivatelu
 
 zacit navrhovat klientskou cast
+
+
+Rozhodl jsem pro Slim Framework. 
+https://www.slimframework.com/docs/v3/tutorial/first-app.html
+
+Serverová část nebude mít vizuální podobu, pouze api pro klientskou část - dispečerský klient a api pro mobilní aplikaci.
+
+
+Co je klient-server architektura - http protokol
+
