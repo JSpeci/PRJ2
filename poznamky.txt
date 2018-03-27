@@ -20,3 +20,11 @@ Serverová část nebude mít vizuální podobu, pouze api pro klientskou část
 
 Co je klient-server architektura - http protokol
 
+
+Zabezpečení serverové části:
+prihlaseni se pomoci loginu a hesla -> prideleni api tokenu pro urcite obdobi -> expirace tokenu v databazi ->
+
+
+
+
+

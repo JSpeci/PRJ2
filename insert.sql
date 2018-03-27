@@ -67,26 +67,26 @@ VALUES
 */
 TRUNCATE TABLE `libtaxidb`.`Uzivatel`;
 INSERT INTO `libtaxidb`.`Uzivatel` 
-	(`idUzivatel`, `nickName`, `celeJmeno`, `adresa`, `veFirmeOd`, `ico`, `idRoleUzivatele`) 
+	(`idUzivatel`, `nickName`, `celeJmeno`, `adresa`, `veFirmeOd`, `ico`, `idRoleUzivatele`, `login`, `password`, `token`, `tokenExpire`) 
 VALUES 
 	/*Dispeceri*/
-	(NULL, 'Sváťa', 'Svatopluk', "Mariánská 3", NOW(), 999999, 1),
-	(NULL, 'Eva', 'Eva', "Mariánská 3", NOW(), 999999, 1),
-	(NULL, 'Jana', 'Jana', "Mariánská 3", NOW(), 999999, 1),
-	(NULL, 'Patrik', 'Patrik', "Mariánská 3", NOW(), 999999, 1),	
+	(NULL, 'Sváťa', 'Svatopluk', "Mariánská 3", NOW(), 999999, 1, NULL, NULL, NULL, NULL),
+	(NULL, 'Eva', 'Eva', "Mariánská 3", NOW(), 999999, 1, NULL, NULL, NULL, NULL),
+	(NULL, 'Jana', 'Jana', "Mariánská 3", NOW(), 999999, 1, NULL, NULL, NULL, NULL),
+	(NULL, 'Patrik', 'Patrik', "Mariánská 3", NOW(), 999999, 1, NULL, NULL, NULL, NULL),	
     
     /*Ridici*/
-    (NULL, 'Honza', 'Jan Špecián', "Schillerova 177/15 Liberec 12", NOW(), 46035290, 2),
-    (NULL, 'Jenda', 'Jan Špecián ml.', "Schillerova 177/15 Liberec 12", NOW(), 46035290, 2),
-    (NULL, 'Filip', 'Filip Jánský', "Mariánská 3 Liberec 1", NOW(), 46035290, 2),
-    (NULL, 'Radek', 'Radek Kříž', "Křižanská 150 Liberec", NOW(), 46035290, 2),
-    (NULL, 'Lúďa', 'Luděk Dousek', "Purkyňova 1", NOW(), 46035290, 2),
-    (NULL, 'Michal', 'Michal Zolák', "Oldřichov 1150", NOW(), 46035290, 2),
-    (NULL, 'Tomáš', 'Tomáš Dvořáček', "Svojsíkova 5", NOW(), 46035290, 2),
-    (NULL, 'Dali', 'Dalibor Čirlič', "Alšova 20", NOW(), 46035290, 2),
-	(NULL, 'Jarda', 'Jaroslav Jeřábek', "Kunratická 15", NOW(), 46035290, 2),
+    (NULL, 'Honza', 'Jan Špecián', "Schillerova 177/15 Liberec 12", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Jenda', 'Jan Špecián ml.', "Schillerova 177/15 Liberec 12", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Filip', 'Filip Jánský', "Mariánská 3 Liberec 1", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Radek', 'Radek Kříž', "Křižanská 150 Liberec", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Lúďa', 'Luděk Dousek', "Purkyňova 1", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Michal', 'Michal Zolák', "Oldřichov 1150", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Tomáš', 'Tomáš Dvořáček', "Svojsíkova 5", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+    (NULL, 'Dali', 'Dalibor Čirlič', "Alšova 20", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
+	(NULL, 'Jarda', 'Jaroslav Jeřábek', "Kunratická 15", NOW(), 46035290, 2, NULL, NULL, NULL, NULL),
     
-    (NULL, 'Admin', 'admin', "V Praci 1", NOW(), 12345678, 3);
+    (NULL, 'Admin', 'admin', "V Praci 1", NOW(), 12345678, 3,  'admin', MD5('admin'), NULL, NULL);
 
 /*
 	Auta
