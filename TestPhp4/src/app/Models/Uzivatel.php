@@ -8,9 +8,12 @@
 
 namespace App\Models;
 
-class User{
+class Uzivatel{
     
-    
-    
+    private $id;
+    private $nickName;
+    private $login;
+    private $celeJmeno;
+    private $role;
     
 }

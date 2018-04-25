@@ -95,7 +95,9 @@ class UzivatelController extends ApiController{
     }   
     
     public function deleteUser(Request $request, Response $response, array $args) {
-               
+        
+        echo "deleting user" . $request->getAttribute("id");
+        
         $id = $args['id'];
         //vlozeni do databaze
         $sql = 'DELETE FROM Uzivatel WHERE idUzivatel = ?';
