@@ -10,7 +10,7 @@ namespace App\Models;
 
 use App\Models\RoleUzivatele;
 
-class Uzivatel{
+class Uzivatel implements \JsonSerializable{
     
     private $id;
     private $nickName;
@@ -18,7 +18,7 @@ class Uzivatel{
     private $celeJmeno;
     private $role;
     
-    function __construct($id, $nickName, $login, $celeJmeno, RoleUzivatele $role) {
+    function __construct($nickName, $login, $celeJmeno, RoleUzivatele $role, $id = null) {
         $this->id = $id;
         $this->nickName = $nickName;
         $this->login = $login;
@@ -46,6 +46,8 @@ class Uzivatel{
         return $this->role;
     }
 
-    
-    
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
+
 }

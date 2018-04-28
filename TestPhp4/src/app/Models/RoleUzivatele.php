@@ -13,15 +13,16 @@ namespace App\Models;
  *
  * @author King
  */
-class RoleUzivatele {
+class RoleUzivatele implements \JsonSerializable {
+
     private $nazevRole;
     private $id;
-    
+
     function __construct($nazevRole, $id) {
         $this->nazevRole = $nazevRole;
         $this->id = $id;
     }
-    
+
     function getNazevRole() {
         return $this->nazevRole;
     }
@@ -29,5 +30,8 @@ class RoleUzivatele {
     function getId() {
         return $this->id;
     }
-    
+
+    public function jsonSerialize() {
+        return get_object_vars($this);
+    }
 }

@@ -5,132 +5,86 @@ namespace App\Controllers;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use \Interop\Container\ContainerInterface as ContainerInterface;
-use PDO;
 use App\Models\Uzivatel;
 use App\Models\RoleUzivatele;
+use App\Services\UzivatelService;
 
+/*
+  LAYERED STRUCTURE !!!
+ * https://www.toptal.com/php/maintain-slim-php-mvc-frameworks-with-a-layered-structure
+ * using of controllrs, model, and services class
+ */
+
+/**
+ * Controller pro Uzivatele
+ * Pracuje s tridou UzivatelService
+ * Otestovany
+ */
 class UzivatelController extends ApiController {
 
-    public function uzivatele(Request $request, Response $response, array $args) {
+    protected $uzivatel_serv;
 
-        $sql = "
-        SELECT * 
-        FROM Uzivatel
-        INNER JOIN RoleUzivatele ON RoleUzivatele.idRoleUzivatele = Uzivatel.idRoleUzivatele";
-        $stmt = $this->container->db->prepare($sql);
-        $stmt->execute();
-        $results = $stmt->fetchAll();
-        
-        $uzivatele = [];
-        foreach ($results as $obj){
-            $role = new RoleUzivatele($obj['nazevRole'], $obj['idRoleUzivatele']);
-            $uzivatele[] = new Uzivatel($obj['id'],$obj['nickName'],$obj['login'],$obj['celeJmeno'],$role);
-        }
-        $response->getBody()->write("hovno");
+    public function __construct(ContainerInterface $container) {
+        parent::__construct($container);
+        $this->uzivatel_serv = $container->UzivatelService;
+    }
+
+    /**
+     * Vsechny uzivatele uzivatele
+     */
+    public function uzivatele(Request $request, Response $response, array $args) {
+        $uzivatele = $this->uzivatel_serv->getAllUzivatel();
+        $response->getBody()->write(json_encode($uzivatele, JSON_UNESCAPED_UNICODE));
         return $response;
     }
 
     /**
-     * Assebly model from DB
+     * Uzivatel podle zadaneho id
      */
-    private function assemblyDTO($object_input) {
-
-        $u = new Uzivatel($object_input['id']);
-        return $u;
-    }
-
     public function getUserDetailById(Request $request, Response $response, array $args) {
         $id = $args["id"];  //important "" not ''
-        $sql = "SELECT * FROM Uzivatel WHERE Uzivatel.idUzivatel=?";
-
-
-        $stmt = $this->container->db->prepare($sql);
-        $stmt->execute([$id]);
-        $result = $stmt->fetch();
-
-        $response->getBody()->write(json_encode($result, JSON_UNESCAPED_UNICODE));
-        //$response->getBody()->write($result);
+        $u = $this->uzivatel_serv->getUzivatelDetailById($id);
+        $response->getBody()->write(json_encode($u, JSON_UNESCAPED_UNICODE));
         return $response;
     }
 
-    protected function getUserById($id) {
-        $sql = "SELECT * FROM Uzivatel WHERE Uzivatel.idUzivatel=?";
-
-        $stmt = $this->container->db->prepare($sql);
-        $stmt->execute([$id]);
-        $result = $stmt->fetch();
-
-        $response->getBody()->write(json_encode($result, JSON_UNESCAPED_UNICODE));
-        return $response;
-    }
-
+    /**
+     * Ulozeni noveho uzivatele do db
+     */
     public function saveNewUser(Request $request, Response $response, array $args) {
-
         $body = $request->getParsedBody();
-        $nickName = $body['nickName'];
-        $celeJmeno = $body['celeJmeno'];
-        $idRoleUzivatele = $body['idRoleUzivatele'];
-
-        //vlozeni do databaze
-        $sql = 'INSERT INTO Uzivatel VALUES '
-                . '(NULL, ?, ?, \'Adresa\', NOW(), 999999, ?, NULL, NULL, NULL, NULL)';
-
-        $stmt = $this->container->db->prepare($sql);
-
-        try {
-            $stmt->bindParam(1, $body['nickName'], PDO::PARAM_STR);
-            $stmt->bindParam(2, $body['celeJmeno'], PDO::PARAM_STR);
-            $stmt->bindParam(3, $body['idRoleUzivatele'], PDO::PARAM_INT);
-
-            $stmt->execute();
-        } catch (PDOException $e) {
+        $saved_u = $this->uzivatel_serv->saveNewUzivatel($body);
+        if ($saved_u == null) {
             return $response->withStatus(400);
+        } else {
+            return $response->getBody()->write(json_encode($saved_u, JSON_UNESCAPED_UNICODE));
         }
-
-        //navratova hodnota
-        return $response->getBody()->write("Inserted");
     }
 
+    /**
+     * Put Patch existujiciho uzivatele
+     */
     public function updateUser(Request $request, Response $response, array $args) {
-
         $id = $args['id'];
-        //vlozeni do databaze
-
-        foreach ($request->getParsedBody() as $key => $val) {
-            try {
-                $sql = 'UPDATE Uzivatel SET ' . $key . '=? WHERE idUzivatel = ?';
-                $stmt = $this->container->db->prepare($sql);
-                //$stmt->bindParam(1, $key, PDO::PARAM_STR);
-                $stmt->bindParam(1, $val, PDO::PARAM_STR);
-                $stmt->bindParam(2, $id, PDO::PARAM_INT);
-                $stmt->execute();
-            } catch (PDOException $e) {
-                return $response->withStatus(400);
-            }
+        $updated_u = $this->uzivatel_serv->updateUzivatel($request->getParsedBody(), $id);
+        if ($updated_u == null) {
+            return $response->withStatus(400);
+        } else {
+            return $response->getBody()->write(json_encode($updated_u, JSON_UNESCAPED_UNICODE));
         }
-
-        //navratova hodnota
-        return $response->getBody()->write("Updated");
     }
 
+    /**
+     * Delete request
+     */
     public function deleteUser(Request $request, Response $response, array $args) {
-
-        echo "deleting user" . $request->getAttribute("id");
-
         $id = $args['id'];
-        //vlozeni do databaze
-        $sql = 'DELETE FROM Uzivatel WHERE idUzivatel = ?';
-        $stmt = $this->container->db->prepare($sql);
-
-        try {
-
-            $stmt->bindParam(1, $id, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (PDOException $e) {
+        $deleted_u = $this->uzivatel_serv->deleteUzivatel($id);
+        if ($deleted_u == null) {
             return $response->withStatus(400);
+        } else {
+            return $response->getBody()->write(json_encode($deleted_u, JSON_UNESCAPED_UNICODE));
         }
-        //navratova hodnota
-        return $response->getBody()->write("Deleted");
     }
 
 }
