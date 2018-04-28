@@ -2,6 +2,7 @@
 
 use App\Controllers\HomeController;
 use App\Controllers\UzivatelController;
+use App\Controllers\DochazkaController;
 
 /*
   require '../app/controllers/ApiController.php';
@@ -15,12 +16,22 @@ use App\Controllers\UzivatelController;
 $app->get('/', HomeController::class . ':home');
 
 $app->group('/Uzivatele', function() {
-    $this->get('/{id}', UzivatelController::class . ':getUserDetailById');
-    $this->get('', UzivatelController::class . ':uzivatele');
-    $this->post('', UzivatelController::class . ':saveNewUser');
-    $this->map(['PUT','PATCH'], '/{id}', UzivatelController::class . ':updateUser');
+    $this->get('/{id}', UzivatelController::class . ':getUzivatelDetailById');
+    $this->get('', UzivatelController::class . ':getAllUzivatel');
+    $this->post('', UzivatelController::class . ':saveNewUzivatel');
+    $this->map(['PUT','PATCH'], '/{id}', UzivatelController::class . ':updateUzivatel');
     
-    $this->delete('/{id}', UzivatelController::class . ':deleteUser');
+    $this->delete('/{id}', UzivatelController::class . ':deleteUzivatel');
+    
+});
+
+$app->group('/Dochazka', function() {
+    $this->get('/{id}', DochazkaController::class . ':getDochazkaDetailById');
+    $this->get('', DochazkaController::class . ':getAllDochazka');
+    $this->post('', DochazkaController::class . ':saveNewDochazka');
+    $this->map(['PUT','PATCH'], '/{id}', DochazkaController::class . ':updateDochazka');
+    
+    $this->delete('/{id}', DochazkaController::class . ':deleteDochazka');
     
 });
 

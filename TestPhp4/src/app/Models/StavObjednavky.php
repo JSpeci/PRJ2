@@ -6,29 +6,27 @@
  * and open the template in the editor.
  */
 
-namespace App\Models;
-
 /**
- * Jednoduchy model pro RoliUzivatele
+ * Description of StavObjednavky
  *
  * @author King
  */
-class RoleUzivatele implements \JsonSerializable {
+class StavObjednavky implements \JsonSerializable {
 
-    private $nazevRole;
     private $id;
+    private $nazevStavu;
 
-    function __construct($nazevRole, $id) {
-        $this->nazevRole = $nazevRole;
+    function __construct($nazevStavu, $id = null) {
         $this->id = $id;
-    }
-
-    function getNazevRole() {
-        return $this->nazevRole;
+        $this->nazevStavu = $nazevStavu;
     }
 
     function getId() {
         return $this->id;
+    }
+
+    function getNazevStavu() {
+        return $this->nazevStavu;
     }
 
     public function jsonSerialize() {

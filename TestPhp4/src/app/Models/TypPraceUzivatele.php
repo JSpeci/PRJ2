@@ -9,26 +9,26 @@
 namespace App\Models;
 
 /**
- * Jednoduchy model pro RoliUzivatele
+ * Description of TypPraceUzivatele
  *
  * @author King
  */
-class RoleUzivatele implements \JsonSerializable {
+class TypPraceUzivatele implements \JsonSerializable {
 
-    private $nazevRole;
     private $id;
+    private $typPraceUzivatele;
 
-    function __construct($nazevRole, $id) {
-        $this->nazevRole = $nazevRole;
+    function __construct($typPraceUzivatele, $id = null) {
         $this->id = $id;
-    }
-
-    function getNazevRole() {
-        return $this->nazevRole;
+        $this->typPraceUzivatele = $typPraceUzivatele;
     }
 
     function getId() {
         return $this->id;
+    }
+
+    function getTypPraceUzivatele() {
+        return $this->typPraceUzivatele;
     }
 
     public function jsonSerialize() {

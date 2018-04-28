@@ -8,18 +8,19 @@
 
 namespace App\Services;
 
-use App\Models\RoleUzivatele;
+use App\Models\TypPraceUzivatele;
+
 /**
- * Description of RoleUzivateleService
+ * Description of TypPraceUzivateleService
  *
  * @author King
  */
-class RoleUzivateleService extends AService {
+class TypPraceUzivateleService extends AService{
     
-    public function getRoleUzivateleById($id){
+    public function getTypPraceUzivateleById($id){
         $sql = "
-            SELECT * FROM RoleUzivatele
-            WHERE RoleUzivatele.idRoleUzivatele = ?";
+            SELECT * FROM TypPraceUzivatele
+            WHERE TypPraceUzivatele.idTypPraceUzivatele = ?";
         $stmt = $this->container->db->prepare($sql);
         $stmt->execute([$id]);
         $result = $stmt->fetch();
@@ -31,21 +32,20 @@ class RoleUzivateleService extends AService {
             return null;
         }
         //povinne
-        if ($body['nazevRole'] != null || $body['nazevRole'] == "") {
-            $nazevRole = $body['nazevRole'];
+        if ($body['typPrace'] != null || $body['typPrace'] == "") {
+            $typPrace = $body['typPrace'];
         } else {
             return null;
         }
 
         //ID
         $id = null;
-        if (isset($body['idAuto'])) {
-            if ($body['idAuto'] != null || $body['idAuto'] == "") {
-                $id = $body['idAuto'];
+        if (isset($body['idTypPraceUzivatele'])) {
+            if ($body['idTypPraceUzivatele'] != null || $body['idTypPraceUzivatele'] == "") {
+                $id = $body['idTypPraceUzivatele'];
             }
         }
 
-        return new RoleUzivatele($nazevRole, $id);
+        return new TypPraceUzivatele($typPrace, $id);
     }
-
 }

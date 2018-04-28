@@ -130,9 +130,9 @@ VALUES
 /*
 	Dochazka demonstrativně
 */
-TRUNCATE TABLE `libtaxidb`.`DochazkaRidicu`;
-INSERT INTO `libtaxidb`.`DochazkaRidicu` 
-	(`idDochazka`, `prichod`, `odchod`, `Uzivatel_idUzivatel`, `idTypPraceUzivatele`, `idStavUzivatele`, `idAuto`) 
+TRUNCATE TABLE `libtaxidb`.`Dochazka`;
+INSERT INTO `libtaxidb`.`Dochazka` 
+	(`idDochazka`, `prichod`, `odchod`, `idUzivatel`, `idTypPraceUzivatele`, `idStavUzivatele`, `idAuto`) 
 VALUES 
 	(NULL, '2018-02-21 07:58:03.000', '2018-02-21 11:58:03.000', '5', '1', '4', '3'),
 	(NULL, '2018-02-22 07:58:03.000', NULL, '5', '1', '1', '3'),

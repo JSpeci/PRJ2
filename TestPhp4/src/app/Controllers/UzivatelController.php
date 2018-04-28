@@ -32,7 +32,7 @@ class UzivatelController extends ApiController {
     /**
      * Vsechny uzivatele uzivatele
      */
-    public function uzivatele(Request $request, Response $response, array $args) {
+    public function getAllUzivatel(Request $request, Response $response, array $args) {
         $uzivatele = $this->uzivatel_serv->getAllUzivatel();
         $response->getBody()->write(json_encode($uzivatele, JSON_UNESCAPED_UNICODE));
         return $response;
@@ -41,7 +41,7 @@ class UzivatelController extends ApiController {
     /**
      * Uzivatel podle zadaneho id
      */
-    public function getUserDetailById(Request $request, Response $response, array $args) {
+    public function getUzivatelDetailById(Request $request, Response $response, array $args) {
         $id = $args["id"];  //important "" not ''
         $u = $this->uzivatel_serv->getUzivatelDetailById($id);
         $response->getBody()->write(json_encode($u, JSON_UNESCAPED_UNICODE));
@@ -51,7 +51,7 @@ class UzivatelController extends ApiController {
     /**
      * Ulozeni noveho uzivatele do db
      */
-    public function saveNewUser(Request $request, Response $response, array $args) {
+    public function saveNewUzivatel(Request $request, Response $response, array $args) {
         $body = $request->getParsedBody();
         $saved_u = $this->uzivatel_serv->saveNewUzivatel($body);
         if ($saved_u == null) {
@@ -64,7 +64,7 @@ class UzivatelController extends ApiController {
     /**
      * Put Patch existujiciho uzivatele
      */
-    public function updateUser(Request $request, Response $response, array $args) {
+    public function updateUzivatel(Request $request, Response $response, array $args) {
         $id = $args['id'];
         $updated_u = $this->uzivatel_serv->updateUzivatel($request->getParsedBody(), $id);
         if ($updated_u == null) {
@@ -77,7 +77,7 @@ class UzivatelController extends ApiController {
     /**
      * Delete request
      */
-    public function deleteUser(Request $request, Response $response, array $args) {
+    public function deleteUzivatel(Request $request, Response $response, array $args) {
         $id = $args['id'];
         $deleted_u = $this->uzivatel_serv->deleteUzivatel($id);
         if ($deleted_u == null) {

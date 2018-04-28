@@ -18,4 +18,5 @@ abstract class AService {
         $this->container = $container;
     }
     
+    protected abstract function assemblyDTO($body);
 }

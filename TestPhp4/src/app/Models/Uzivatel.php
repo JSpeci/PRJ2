@@ -10,7 +10,7 @@ namespace App\Models;
 
 use App\Models\RoleUzivatele;
 
-class Uzivatel implements \JsonSerializable{
+class Uzivatel implements \JsonSerializable {
     
     private $id;
     private $nickName;

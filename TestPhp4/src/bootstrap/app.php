@@ -4,6 +4,10 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use App\Services\UzivatelService;
 use App\Services\RoleUzivateleService;
+use App\Services\DochazkaService;
+use App\Services\AutoService;
+use App\Services\StavUzivateleService;
+use App\Services\TypPraceUzivateleService;
 
 require '../vendor/autoload.php';
 
@@ -49,6 +53,21 @@ $container['db'] = function ($c) {
 
 
 // pair controller and service class
+$container['AutoService'] = function($c) {
+    return new AutoService($c);
+};
+
+$container['StavUzivateleService'] = function($c) {
+    return new StavUzivateleService($c);
+};
+
+$container['TypPraceUzivateleService'] = function($c) {
+    return new TypPraceUzivateleService($c);
+};
+
+$container['DochazkaService'] = function($c) {
+    return new DochazkaService($c);
+};
 
 $container['RoleUzivateleService'] = function($c) {
     return new RoleUzivateleService($c);
@@ -58,8 +77,13 @@ $container['UzivatelService'] = function($c) {
     return new UzivatelService($c);
 };
 
+
 $container['UzivatelController'] = function($c) {
     return new UzivatelController($c);
+};
+
+$container['DochazkaController'] = function($c) {
+    return new DochazkaController($c);
 };
 
 

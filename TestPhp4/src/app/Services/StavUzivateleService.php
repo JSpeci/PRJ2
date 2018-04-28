@@ -7,19 +7,19 @@
  */
 
 namespace App\Services;
+use App\Models\StavUzivatele;
 
-use App\Models\RoleUzivatele;
 /**
- * Description of RoleUzivateleService
+ * Description of StavUzivateleService
  *
  * @author King
  */
-class RoleUzivateleService extends AService {
+class StavUzivateleService extends AService{
     
-    public function getRoleUzivateleById($id){
+    public function getStavUzivateleById($id){
         $sql = "
-            SELECT * FROM RoleUzivatele
-            WHERE RoleUzivatele.idRoleUzivatele = ?";
+            SELECT * FROM StavUzivatele
+            WHERE StavUzivatele.idStavUzivatele = ?";
         $stmt = $this->container->db->prepare($sql);
         $stmt->execute([$id]);
         $result = $stmt->fetch();
@@ -31,21 +31,20 @@ class RoleUzivateleService extends AService {
             return null;
         }
         //povinne
-        if ($body['nazevRole'] != null || $body['nazevRole'] == "") {
-            $nazevRole = $body['nazevRole'];
+        if ($body['nazevStavu'] != null || $body['nazevStavu'] == "") {
+            $nazevStavu = $body['nazevStavu'];
         } else {
             return null;
         }
 
         //ID
         $id = null;
-        if (isset($body['idAuto'])) {
-            if ($body['idAuto'] != null || $body['idAuto'] == "") {
-                $id = $body['idAuto'];
+        if (isset($body['idStavUzivatele'])) {
+            if ($body['idStavUzivatele'] != null || $body['idStavUzivatele'] == "") {
+                $id = $body['idStavUzivatele'];
             }
         }
 
-        return new RoleUzivatele($nazevRole, $id);
+        return new StavUzivatele($nazevStavu, $id);
     }
-
 }
