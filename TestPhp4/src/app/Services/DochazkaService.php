@@ -1,10 +1,18 @@
 <?php
 
 namespace App\Services;
-
-use PDO;
-use App\Services\AService;
 use App\Models\Dochazka;
+use PDO;
+/*
+{
+	"prichod": "2018-02-21 07:58:03",
+	"odchod": "2020-02-21 07:58:03",
+	"idUzivatel": 5,
+	"idTypPraceUzivatele": 1,
+	"idStavUzivatele": 1,
+	"idAuto":4
+}
+ *  */
 
 /**
  * Description of DochazkaService
@@ -42,8 +50,8 @@ class DochazkaService extends AService {
     }
 
     public function saveNewDochazka($body) {
-        $u = $this->assemblyDTO($body);
-        if ($u == null) {
+        $d = $this->assemblyDTO($body);
+        if ($d == null) {
             return null;
         }
         //vlozeni do databaze
@@ -51,26 +59,53 @@ class DochazkaService extends AService {
                 (`idDochazka`, `prichod`, `odchod`, `idUzivatel`, 
                  `idTypPraceUzivatele`, `idStavUzivatele`, `idAuto`) 
                 VALUES 
-                (NULL, '2018-02-21 07:58:03.000', NULL, 
-                '5', '1', '4', '3')";
+                (NULL, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->container->db->prepare($sql);
 
-        $nick = $u->getNickName();
-        $cele = $u->getCeleJmeno();
-        $role_id = $u->getRole()->getId();
-        $login = $u->getLogin();
+        $prichod = $d->getPrichod();
+        $odchod = $d->getOdchod();
+        $id_u = $d->getUzivatel()->getId();
+        $id_typP = $d->getTypPraceUzivatele()->getId();
+        $id_stav = $d->getStavUzivatele()->getId();
+        $id_auto = $d->getAuto()->getId();
+
         try {
-            $stmt->bindParam(1, $nick, PDO::PARAM_STR);
-            $stmt->bindParam(2, $cele, PDO::PARAM_STR);
-            $stmt->bindParam(3, $role_id, PDO::PARAM_INT);
-            $stmt->bindParam(4, $login, PDO::PARAM_STR);
+            $stmt->bindParam(1, $prichod, PDO::PARAM_STR);
+            $stmt->bindParam(2, $odchod, PDO::PARAM_STR);
+            $stmt->bindParam(3, $id_u, PDO::PARAM_INT);
+            $stmt->bindParam(4, $id_typP, PDO::PARAM_INT);
+            $stmt->bindParam(5, $id_stav, PDO::PARAM_INT);
+            $stmt->bindParam(6, $id_auto, PDO::PARAM_INT);
             $stmt->execute();
-            //assembly output DTO from db - now has id
-            $user_complete = $this->getUserByLogin($login);
+            //assembly output DTO from db 
+            $dochazka_complete = $this->getDochazkaByAttrs($prichod, $odchod, $id_u);
             //$user_complete ma vsecky pole, my osadime DTO, 
             //abychom zverejnili jen to co chceme
-            $u = $this->assemblyDTO($user_complete);
-            return $u;
+            $d = $this->assemblyDTO($dochazka_complete);
+            return $d;
+        } catch (PDOException $e) {
+            //neulozeny uzivatel 
+            return null;
+        }
+    }
+
+    protected function getDochazkaByAttrs($prichod, $odchod, $id_u) {
+        $sql = "        
+            SELECT * 
+            FROM Dochazka
+            WHERE   Dochazka.prichod = ? 
+                AND Dochazka.odchod = ? 
+                AND Dochazka.idUzivatel = ?";
+        $stmt = $this->container->db->prepare($sql);
+        try {
+            $stmt->bindParam(1, $prichod, PDO::PARAM_STR);
+            $stmt->bindParam(2, $odchod, PDO::PARAM_STR);
+            $stmt->bindParam(3, $id_u, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $result = $stmt->fetch();
+            return $result;
+            
         } catch (PDOException $e) {
             //neulozeny uzivatel 
             return null;
@@ -81,24 +116,29 @@ class DochazkaService extends AService {
         if ($id == null) {
             return null;
         }
+        $dochazka_complete = $this->getDochazkaById($id);
+        if ($dochazka_complete == null) {
+            return null;
+        }
         //update for each key
         foreach ($body as $key => $val) {
             try {
                 $sql = 'UPDATE Dochazka SET ' . $key . '=? WHERE idDochazka = ?';
                 $stmt = $this->container->db->prepare($sql);
+                $int_id = intval($id);
                 $stmt->bindParam(1, $val, PDO::PARAM_STR);
-                $stmt->bindParam(2, $id, PDO::PARAM_INT);
+                $stmt->bindParam(2, $int_id, PDO::PARAM_INT);
                 $stmt->execute();
             } catch (PDOException $e) {
                 return null;
             }
         }
-        return $this->getUserById($id);
+        return $this->assemblyDTO($this->getDochazkaById($id));
     }
 
     public function deleteDochazka($id) {
-        $user_complete = $this->getUserById($id);
-        if ($user_complete == null) {
+        $dochazka_complete = $this->dochazkaExistsById($id);
+        if (!$dochazka_complete) {
             return null;
         }
         $sql = 'DELETE FROM Dochazka WHERE idDochazka = ?';
@@ -110,7 +150,18 @@ class DochazkaService extends AService {
         } catch (PDOException $e) {
             return null;
         }
-        return $this->assemblyDTO($user_complete);
+        return $this->assemblyDTO($dochazka_complete);
+    }
+
+    protected function dochazkaExistsById($id) {
+        if ($id == null) {
+            return false;
+        }
+        $dochazka_complete = $this->getDochazkaById($id);
+        if ($dochazka_complete == null) {
+            return false;
+        }
+        return $dochazka_complete;
     }
 
     protected function getDochazkaById($id) {
@@ -183,7 +234,7 @@ class DochazkaService extends AService {
         $uzivatel = $this->container->UzivatelService->getUzivatelDetailById($idUzivatel);
 
         $d = new Dochazka($prichod, $odchod, $uzivatel, $typPrace, $stav, $auto, $id);
-        
+
         return $d;
         //null - databaze resi id autoinkrementem
     }

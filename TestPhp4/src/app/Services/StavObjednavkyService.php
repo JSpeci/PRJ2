@@ -7,37 +7,38 @@
  */
 
 namespace App\Services;
-
-use App\Models\StavUzivatele;
+use App\Services\AService;
+use App\Models\StavObjednavky;
 use PDO;
+
 /**
- * Description of StavUzivateleService
+ * Description of StavObjednavkyService
  *
  * @author King
  */
-class StavUzivateleService extends AService {
+class StavObjednavkyService extends AService {
 
-    public function getStavUzivateleById($id) {
+    public function getStavObjednavkyById($id) {
         $sql = "
-            SELECT * FROM StavUzivatele
-            WHERE StavUzivatele.idStavUzivatele = ?";
+            SELECT * FROM StavObjednavky
+            WHERE StavObjednavky.idStavObjednavky = ?";
         $stmt = $this->container->db->prepare($sql);
         $stmt->execute([$id]);
         $result = $stmt->fetch();
         return $this->assemblyDTO($result);
     }
 
-    public function getAllStavUzivatele() {
+    public function getAllStavObjednavky() {
         $sql = "
         SELECT * 
-        FROM StavUzivatele";
+        FROM StavObjednavky";
         $stmt = $this->container->db->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetchAll();
 
         $stavy = [];
         foreach ($results as $obj) {
-            $s = $this->getStavUzivateleById($obj['idStavUzivatele']);
+            $s = $this->getStavObjednavkyById($obj['idStavObjednavky']);
             $stavy[] = $s;
         }
         return $stavy;
@@ -56,13 +57,13 @@ class StavUzivateleService extends AService {
 
         //ID
         $id = null;
-        if (isset($body['idStavUzivatele'])) {
-            if ($body['idStavUzivatele'] != null || $body['idStavUzivatele'] == "") {
-                $id = $body['idStavUzivatele'];
+        if (isset($body['idStavObjednavky'])) {
+            if ($body['idStavObjednavky'] != null || $body['idStavObjednavky'] == "") {
+                $id = $body['idStavObjednavky'];
             }
         }
 
-        return new StavUzivatele($nazevStavu, $id);
+        return new StavObjednavky($nazevStavu, $id);
     }
 
 }

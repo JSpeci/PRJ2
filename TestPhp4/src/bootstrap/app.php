@@ -1,13 +1,14 @@
 <?php
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
 use App\Services\UzivatelService;
 use App\Services\RoleUzivateleService;
 use App\Services\DochazkaService;
 use App\Services\AutoService;
 use App\Services\StavUzivateleService;
 use App\Services\TypPraceUzivateleService;
+use App\Services\ObjednavkaService;
+use App\Services\StavObjednavkyService;
+use App\Services\LogStavuService;
 
 require '../vendor/autoload.php';
 
@@ -57,9 +58,22 @@ $container['AutoService'] = function($c) {
     return new AutoService($c);
 };
 
+$container['ObjednavkaService'] = function($c) {
+    return new ObjednavkaService($c);
+};
+
 $container['StavUzivateleService'] = function($c) {
     return new StavUzivateleService($c);
 };
+
+$container['StavObjednavkyService'] = function($c) {
+    return new StavObjednavkyService($c);
+};
+
+$container['LogStavuService'] = function($c) {
+    return new LogStavuService($c);
+};
+
 
 $container['TypPraceUzivateleService'] = function($c) {
     return new TypPraceUzivateleService($c);
@@ -86,6 +100,9 @@ $container['DochazkaController'] = function($c) {
     return new DochazkaController($c);
 };
 
+$container['OthersController'] = function($c) {
+    return new OthersController($c);
+};
 
 
 

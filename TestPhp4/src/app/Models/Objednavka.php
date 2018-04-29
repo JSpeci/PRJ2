@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 /**
  * Description of Objednavka
  *

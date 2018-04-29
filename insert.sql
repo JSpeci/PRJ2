@@ -159,6 +159,16 @@ INSERT INTO `libtaxidb`.`Hodnoceni`
 VALUES 
 	(NULL, "V poradku a rychle", 1, 1);
 
+/*
+	Log Stavu neco
+*/
+TRUNCATE TABLE `libtaxidb`.`LogStavu`;
+INSERT INTO `libtaxidb`.`LogStavu` 
+    (`idLogStavu`, `idStavUzivatele`, `idUzivatel`, `cas`) 
+VALUES 
+    (NULL, '2', '3', NOW()),
+    (NULL, '3', '3', NOW());
+
 
 
 
