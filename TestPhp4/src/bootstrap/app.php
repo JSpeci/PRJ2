@@ -24,7 +24,7 @@ $app = new \Slim\App(['settings' => $config]);
 
 require '../app/routes/routes.php';
 
-//middleware - check APIkey
+/*//middleware - check APIkey
 $mw = function ($request, $response, $next) {
     $uri = $request->getUri();
 
@@ -39,7 +39,7 @@ $mw = function ($request, $response, $next) {
 };
 
 $app->add($mw);
-
+*/
 //Dependency injection container
 
 $container = $app->getContainer();
@@ -50,6 +50,19 @@ $container['db'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     return $pdo;
+};
+
+// Register component on container
+$container['view'] = function ($container) {
+    $view = new \Slim\Views\Twig('./', [
+        'cache' => false
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
+    $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
+
+    return $view;
 };
 
 

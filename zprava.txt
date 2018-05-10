@@ -1,0 +1,83 @@
+0.   Obsah
+1.   Úvod - struèné vysvìtlení øešené problematiky, souvislost s praxí, stanovení cílù
+
+Úvod
+Cílem práce je vytvoøení webové aplikace pro dispeèink taxislužby, která by mìla zcela nahradit papírovou evidenci a tím výraznì zefektivnit získání pøehledù objednávek, docházce øidièù, vozidlech a vazeb mezi nimi. Papírová evidence je èasovì nároèná na vyhledávání a tvorbu pøehledù objednávek pro øidièe za zadané období.
+
+Zadávání veškerých dat obstarává dispeèer, komunikující s øidièi vysílaèkou a objednávky pøíjmá telefonicky v nepøetržitém smìnném provozu.
+
+Aplikace usnadòuje a zpøesòuje práci dispeèera pøi velkém poètu øidièù k dispozici a vyøizování velkého množství pøíchozích objednávek v období poptávkové špièky, kdy dispeèer je snadno zahltitelný a udìlá chybu. Následkem chyby mùže být øidiè èekající zbyteènì, nebo úplnì zapomenutý klient, taktéž èekející zbyteènì.
+
+Uživatelské rozhraní dispeèerovi poskytuje pøehled o stavu øidièù a stavu objednávek a øadí je do fronty k vyøízení.
+
+Motivace
+Dispeèerova práce v taxislužbì spoèívá v komunikaci se zákazníky pomocí telefonu, èi mobilní aplikace a s øidièi vozidel taxi pomocí vysílaèky. Obvykle je pøítomen dispeèer v nepøetržitém provozu na smìny.
+
+Objednávky vèasné i okamžité zapisuje do papírových sešitù. Po jejich vyøízení, tím je myšleno pøedání konkrétnímu øidièi k vyøízení zapisuje øidièe a vozidlo, kterým byla objednávka vyøízena. 
+
+Druhou agendou je docházka øidièù do práce. Vždy jsou k dispozici øidièi pracující na smìny. Vedle nich jsou k dispozici øidièi, kteøí nejsou na své smìnì, ale pouze èekají na zákazníky na stanovištích a nahlásili se dispeèerovi jako záloha. Tìmto øidièùm mimo smìnu pøidìluje dispeèer objednávky pouze pokud ti ve smìnì jsou obsazeni a nemohou pøíchozí objednávku obsloužit.
+
+Øidièi v taxislužbì jsou koncesovaní živnostníci a od dispeèinku si pøidìlené objednávky kupují. Proto je evidence všech pohybù nutná, aby mohl každý øidiè jednou za mìsíc dostat výpis jemu pøidìlených objednávek k vyrovnání. Tvorba pøehledù a souètù je v papírové formì velmi zdlouhavá práce, kterou bude aplikace jednoduše automatizovat. 
+
+Øidièi jsou øazeni do fronty pro další pøicházející objednávku, ve které mají pøednost ti na své smìnì a pak ostatní k dispozici. Dále tvorba fronty musí zohledòovat stav øidièe, zda není mimo, nemá pauzu, nebo nepøítomen ve voze.
+
+Objednávky jsou øazeny do fronty podle jejich èasu k vyøízení. Ty okamžité jsou øazeny podle èasu jejich vzniku. 
+Pokud se sejde v jeden èas okamžitá a vèasná objednávka, pak vèasná má vyšší prioritu.
+
+Uživatelské rozhraní by mìlo tyto dvì fronty zobrazit a tím poskytnout dispeèerovi možnost pøidìlovat objednávky bez chyb a spravedlivì podle výse zmínìných pravidel. 
+V poptávkové špièce dochází èasto k chybám na pravidlech pøidìlování objednávek, napøíklad mùže být èekající klient zapomenut, nebo øidiè vyslán nìkam, kde už byla objednávka vyøízena.
+
+Aplikace bude po dohodì nasazena v dispeèinku BleskTaxi s.r.o, Vavøincùv vrch 192/5, Staré Mìsto, 460 01 Liberec. Jako webová aplikace mùže být používána z libovolného místa a tím umožní vykonávat dispeèerskou práci z domu za pomoci pøenosné vysílaèky, mobilního telefonu a zaøízením s webovým prohlížeèem, napøíklad tabletem. Tato skuteènost by mìla vést ke zrušení pronajaté kanceláøe a pøechodu na práci z domu.
+
+
+Cíle Práce
+Cílem práce je návrh a implementace webové aplikace pokrývající písemnou agendu dispeèerské práce. Seznámení se a použití technologií pro tvorbu Single page aplikace - SPA.
+
+Použité technologie
+ PHP Framework Slim
+ Databáze MySQL
+PHP Framework Slim
+ MobX
+ 
+Klient server webová aplikace
+ SPA
+
+PHP Framework Slim
+ Co je, co z nìj používám, proè ho používám
+
+Databáze
+ Mysql, diagram, komentáø diagramu a entit,
+
+React
+
+MobX
+
+Serverová èást
+ MVC, api
+ diagram
+
+Klientská èást
+ api call, react, mobx, asynchroní a synchronní èásti, dom,
+ gui ukázky
+
+Závìr
+ - není pøihlašování
+ - možno dodefinovat další možné pøehledy
+ - rozšiøitelnost
+ - znovupoužitelnost i pro jiné dispeèinky taxislužeb podobné velikosti
+
+
+Zdroje
+http://jecas.cz/spa
+
+
+
+
+
+
+
+
+2.   Popis použitých metod  (prostøedkù, obvodù, algoritmù, apod. - s odkazy na literaturu), je nepøípustné opisovat texty èi kopírovat obrázky z literatury
+3.   Vlastní øešení konkrétního problému - popis vlastních prací, výsledkù, apod.
+4.   Shrnutí výsledkù projektu a závìr (naznaèení dalšího možného pokraèování)
+5.   Použitá literatura

@@ -11,7 +11,8 @@ class HomeController extends ApiController{
     public function home(Request $request, Response $response, array $args) {
         // your code
         // to access items in the container... $this->container->get('');
-        return $response->getBody()->write("Home - maybe bottstrap client side");
+        
+        return $this->container->view->render($response, 'template.html');
     }
     
 }
